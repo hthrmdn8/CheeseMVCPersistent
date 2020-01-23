@@ -1,10 +1,8 @@
-﻿using CheeseMVC.Models;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using CheeseMVC.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CheeseMVC.ViewModels
 {
@@ -14,35 +12,46 @@ namespace CheeseMVC.ViewModels
         [Display(Name = "Cheese Name")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "You must give your cheese a description")]
+        [Required(ErrorMessage = "You must provide a description")]
         public string Description { get; set; }
 
-        public CheeseType Type { get; set; }
+        /*[Range(1, 5)]
+        public int Rating { get; set; }*/
 
-        public List<SelectListItem> CheeseTypes { get; set; }
+        [Required]
+        [Display(Name = "Category")]
+        public int CategoryID { get; set; }
 
-        public AddCheeseViewModel() {
+        public List<SelectListItem> Categories { get; set; }
 
-            CheeseTypes = new List<SelectListItem>();
+        public AddCheeseViewModel(IEnumerable<CheeseCategory> categories)
+        {
+            this.Categories = new List<SelectListItem>();
 
-            // <option value="0">Hard</option>
-            CheeseTypes.Add(new SelectListItem {
-                Value = ((int) CheeseType.Hard).ToString(),
-                Text = CheeseType.Hard.ToString()
-            });
-
-            CheeseTypes.Add(new SelectListItem
+            foreach (CheeseCategory category in categories)
             {
-                Value = ((int)CheeseType.Soft).ToString(),
-                Text = CheeseType.Soft.ToString()
-            });
-
-            CheeseTypes.Add(new SelectListItem
-            {
-                Value = ((int)CheeseType.Fake).ToString(),
-                Text = CheeseType.Fake.ToString()
-            });
-
+                // Generate a new SelectListItem
+                // Add SelectListItem to this.Categories
+                this.Categories.Add(new SelectListItem()
+                {
+                    Value = category.ID.ToString(),
+                    Text = category.Name
+                });
+            }
         }
+
+        public AddCheeseViewModel() { }
+
+        public Cheese CreateCheese()
+        {
+            return new Cheese
+            {
+                Name = this.Name,
+                Description = this.Description,
+                CategoryID = this.CategoryID,
+               
+            };
+        }
+
     }
 }
