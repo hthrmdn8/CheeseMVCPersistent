@@ -23,7 +23,9 @@ namespace CheeseMVC.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            return View();
+            IList<CheeseCategory> categories = context.Categories.ToList();
+
+            return View(categories);
         }
 
         // GET /Category/Add
@@ -54,13 +56,6 @@ namespace CheeseMVC.Controllers
             return View(viewModel);
         }
 
-        [HttpGet]
-        public JsonResult GetCategories()
-        {
-            List<CheeseCategory> categories = context.Categories.ToList();
-
-            return Json(categories);
-        }
 
         [HttpPost]
         public IActionResult Delete(int id)

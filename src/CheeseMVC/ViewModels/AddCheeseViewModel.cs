@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿
 using CheeseMVC.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CheeseMVC.ViewModels
 {
@@ -12,11 +15,8 @@ namespace CheeseMVC.ViewModels
         [Display(Name = "Cheese Name")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "You must provide a description")]
+        [Required(ErrorMessage = "You must give your cheese a description")]
         public string Description { get; set; }
-
-        /*[Range(1, 5)]
-        public int Rating { get; set; }*/
 
         [Required]
         [Display(Name = "Category")]
@@ -26,13 +26,11 @@ namespace CheeseMVC.ViewModels
 
         public AddCheeseViewModel(IEnumerable<CheeseCategory> categories)
         {
-            this.Categories = new List<SelectListItem>();
 
-            foreach (CheeseCategory category in categories)
+            Categories = new List<SelectListItem>();
+            foreach (var category in categories)
             {
-                // Generate a new SelectListItem
-                // Add SelectListItem to this.Categories
-                this.Categories.Add(new SelectListItem()
+                Categories.Add(new SelectListItem
                 {
                     Value = category.ID.ToString(),
                     Text = category.Name
@@ -40,18 +38,9 @@ namespace CheeseMVC.ViewModels
             }
         }
 
-        public AddCheeseViewModel() { }
-
-        public Cheese CreateCheese()
+        public AddCheeseViewModel()
         {
-            return new Cheese
-            {
-                Name = this.Name,
-                Description = this.Description,
-                CategoryID = this.CategoryID,
-               
-            };
-        }
 
+        }
     }
 }

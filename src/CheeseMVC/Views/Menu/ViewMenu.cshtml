@@ -4,12 +4,15 @@
 }
 
 <ul>
-    @foreach (var item in Model.Items)
+    @foreach (var cheeseMenu in Model.Items)
     {
         <li>
-            @item.Cheese.Name
+            @cheeseMenu.Cheese.Name
         </li>
     }
 </ul>
-
+@if (Model.Items.Count == 0)
+{
+    <h2>No Cheese Menus Items Here</h2>
+}
 <p><a asp-controller="Menu" asp-action="AddItem" asp-route-id="@Model.Menu.ID">Add Item</a></p>

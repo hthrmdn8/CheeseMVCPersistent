@@ -43,7 +43,8 @@ namespace CheeseMVC.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("ID");
 
@@ -86,7 +87,7 @@ namespace CheeseMVC.Migrations
             modelBuilder.Entity("CheeseMVC.Models.CheeseMenu", b =>
                 {
                     b.HasOne("CheeseMVC.Models.Cheese", "Cheese")
-                        .WithMany()
+                        .WithMany("CheeseMenus")
                         .HasForeignKey("CheeseID")
                         .OnDelete(DeleteBehavior.Cascade);
 

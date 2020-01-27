@@ -76,6 +76,42 @@ namespace CheeseMVC.Controllers
 
             return View(addCheeseViewModel);
         }
+        public IActionResult Remove()
+        {
+            ViewBag.title = "Remove Cheese";
+            //Will pass in list of Cheese Objects
+            ViewBag.cheeses = context.Cheeses.ToList();
+            return View();
+
+        }
+        [HttpPost]
+        /*When posted the framework will populate the cheeseIds parameter
+         with the int corresponding to the checkboxes the user selected
+         on the remove form
+         
+         The parameters on this IActionResult are an int array of cheeseIds    */
+
+        public IActionResult Remove(int[] cheeseIds)
+        {
+            //loop over all the integers of ids in cheeseIds
+            foreach (int cheeseId in cheeseIds)
+            {
+                /*RemoveAll is going to accept one of these predicates which is 
+                 method based syntax
+                 its going to match all items x in the cheeses list where the cheeseId
+                 of an item is equal to the cheeseId we are considering in the loop
+                 
+                Cheeses.RemoveAll(x => x.CheeseId == cheeseId);
+                CheeseData.Remove(cheeseId);*/
+
+
+                Cheese theCheese = context.Cheeses.Single(c => c.ID == cheeseId);
+                context.Cheeses.Remove(theCheese);
+            }
+            context.SaveChanges();
+            //Redirecting to homepage after the removed cheeses were selected
+            return Redirect("/");
+        }
 
         /*GET /Cheese/Edit/ cheeseId;
         public IActionResult Edit(int cheeseId)

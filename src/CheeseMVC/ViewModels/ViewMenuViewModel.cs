@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CheeseMVC.Models;
-
+using System.Linq;
 namespace CheeseMVC.ViewModels
 {
     public class ViewMenuViewModel
@@ -10,8 +10,5 @@ namespace CheeseMVC.ViewModels
 
         public IList<CheeseMenu> Items { get; set; }
 
-        public ViewMenuViewModel()
-        {
-        }
     }
 }
